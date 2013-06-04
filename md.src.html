@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta id="viewport" name="viewport" content="initial-scale=1.0" />
+  <title>Title</title>
+<!-- ===================================================================== -->
+<!-- ==================== YOUR CSS CODE GOES HERE! ======================= -->
+<!-- ===================================================================== -->
+  <!-- use bootstrap style -->
+  <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.0/css/font-awesome.css" rel="stylesheet">
+  <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.0/css/font-awesome-ie7.css" rel="stylesheet">
+  <!-- adjust bootstrap style for Markdown Chrome -->
+  <link href="//www.takahashihideki.net/css/adjustBootstrapStyleForMC.css" rel="stylesheet">
+<!-- ===================================================================== -->
+</head>
+<body>
+
+<div class="navbar navbar-inverse navbar-static-top">
+ <div class="navbar-inner">
+  <div class="container">
+   <a class="brand" href="?">
+    Title
+   </a>
+  </div>
+ </div>
+</div>
+
+<div class="container">
+  <div id="content" style="display:none">
+<!-- ===================================================================== -->
+<!-- ================== YOUR Markdown TEXT GOES HERE! ==================== -->
+<!-- ===================================================================== -->
+
+
+
+<!-- ===================================================================== -->
+  </div>
+
+  <div id="pagination" style="display:none"></div>
+  <hr>
+  <footer><p>&copy; your copyright</p></footer>
+
+<!-- /container -->
+</div>
+
+<div id="sequentialAccessor" style="display:none"></div>
+<div id="spinner" style="position: absolute; display:none; width: 40px; height: 40px"></div>
+
+<!-- ===================================================================== -->
+<!-- ================ YOUR Javascript CODE GOES HERE! ==================== -->
+<!-- ===================================================================== -->
+<script>
+  // window.onload = function () { console.log( "Hello World!" ) }
+  // onprint = function () { console.log( "Hello World!" ) }
+  /*
+  var getSource = function ( arg ) {
+    // require setting MarkdownChromeConfig.getSource and MarkdownChromeConfig.getSourceButton 
+    console.log( arg.source );
+    console.log( arg.filename );
+  }
+  */
+</script>
+<!-- ===================================================================== -->
+<!-- ================ Cofiguration of Markdown Chrome ==================== -->
+<!-- ===================================================================== -->
+<script>
+var MarkdownChromeConfig = {
+  // the element id for markdown content container ---------------------------
+  container:                                                        "content",                                       
+  // the element id for paginatinon ------------------------------------------
+  pagination:                                                    "pagination",                                      
+  // the element id of pagination template -----------------------------------
+  paginationTemplate:                                   "template-pagination",                 
+  // use sequential accessor -------------------------------------------------
+  sequentialAccess:                                                    false,                                    
+  // the element id for sequential accessor ----------------------------------
+  sequentialAccessor:                                    "sequentialAccessor",                  
+  // the element id of sequentialAccessor template ---------------------------
+  sequentialAccessorTemplate:                   "template-sequentialAccessor", 
+  // preload all pages in index ----------------------------------------------
+  preloading:                                                          false,                                         
+  // on print event ----------------------------------------------------------
+  onPrint:                                                              null,
+  // function for get source -------------------------------------------------
+  getSource:                                                            null,
+  // the trigger button element id of getting source -------------------------
+  getSourceButton:                                                      null
+  // -------------------------------------------------------------------------
+}
+</script>
+<!-- ===================================================================== -->
+<!-- ==================== Markdown Chrome Template ======================= -->
+<!-- ===================================================================== -->
+<script type="x-template" id="template-pagination">
+  <div class="pagination pagination-{if mini}mini{endif}{if small}small{endif} pagination-centered">
+    <ul>
+      <li><a class="paginationPrev" href="javascript:void(0)">&lsaquo;</a></li>
+      {loop pages}
+        {if active}<li><a class="paginationOffset" href="javascript:void(0)">{offset}</a></li>{endif}
+        {if disabled}<li class="disabled"><a class="paginationOffset" href="javascript:void(0)">{offset}</a></li>{endif}
+      {endloop}
+      <li><a class="paginationNext" href="javascript:void(0)">&rsaquo;</a></li>
+    </ul>
+  </div>
+</script>
+<script type="x-template" id="template-sequentialAccessor">
+  <div class="navbar navbar-fixed-bottom">
+    <div class="navbar-inner">
+      <div class="container">
+        <ul class="nav">
+          <li><a href="?"><small><i class="icon-list"></i>&nbsp;<span id="totalIndex"></span></small></a></li>
+        </ul>
+        <ul class="nav pull-right">
+          <li id="prevIndex"><a href="javascript:void(0)"><small><i class="icon-backward"></i></small></a></li>
+          <li><p class="navbar-text"><small><span id="currentIndex"></span></small></p></li>
+          <li id="nextIndex"><a href="javascript:void(0)"><small><i class="icon-forward"></i></small></a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</script>
+<!-- ===================================================================== -->
+<!-- ====================== Markdown Chrome Core ========================= -->
+<!-- ===================================================================== -->
+<script>
+//
+// USE spin.js
+//
+//http://fgnass.github.io/spin.js/
+(function(t,e){if(typeof exports=="object")module.exports=e();else if(typeof define=="function"&&define.amd)define(e);else t.Spinner=e()})(this,function(){"use strict";var t=["webkit","Moz","ms","O"],e={},i;function o(t,e){var i=document.createElement(t||"div"),o;for(o in e)i[o]=e[o];return i}function n(t){for(var e=1,i=arguments.length;e<i;e++)t.appendChild(arguments[e]);return t}var r=function(){var t=o("style",{type:"text/css"});n(document.getElementsByTagName("head")[0],t);return t.sheet||t.styleSheet}();function s(t,o,n,s){var a=["opacity",o,~~(t*100),n,s].join("-"),f=.01+n/s*100,l=Math.max(1-(1-t)/o*(100-f),t),d=i.substring(0,i.indexOf("Animation")).toLowerCase(),u=d&&"-"+d+"-"||"";if(!e[a]){r.insertRule("@"+u+"keyframes "+a+"{"+"0%{opacity:"+l+"}"+f+"%{opacity:"+t+"}"+(f+.01)+"%{opacity:1}"+(f+o)%100+"%{opacity:"+t+"}"+"100%{opacity:"+l+"}"+"}",r.cssRules.length);e[a]=1}return a}function a(e,i){var o=e.style,n,r;if(o[i]!==undefined)return i;i=i.charAt(0).toUpperCase()+i.slice(1);for(r=0;r<t.length;r++){n=t[r]+i;if(o[n]!==undefined)return n}}function f(t,e){for(var i in e)t.style[a(t,i)||i]=e[i];return t}function l(t){for(var e=1;e<arguments.length;e++){var i=arguments[e];for(var o in i)if(t[o]===undefined)t[o]=i[o]}return t}function d(t){var e={x:t.offsetLeft,y:t.offsetTop};while(t=t.offsetParent)e.x+=t.offsetLeft,e.y+=t.offsetTop;return e}var u={lines:12,length:7,width:5,radius:10,rotate:0,corners:1,color:"#000",direction:1,speed:1,trail:100,opacity:1/4,fps:20,zIndex:2e9,className:"spinner",top:"auto",left:"auto",position:"relative"};function p(t){if(typeof this=="undefined")return new p(t);this.opts=l(t||{},p.defaults,u)}p.defaults={};l(p.prototype,{spin:function(t){this.stop();var e=this,n=e.opts,r=e.el=f(o(0,{className:n.className}),{position:n.position,width:0,zIndex:n.zIndex}),s=n.radius+n.length+n.width,a,l;if(t){t.insertBefore(r,t.firstChild||null);l=d(t);a=d(r);f(r,{left:(n.left=="auto"?l.x-a.x+(t.offsetWidth>>1):parseInt(n.left,10)+s)+"px",top:(n.top=="auto"?l.y-a.y+(t.offsetHeight>>1):parseInt(n.top,10)+s)+"px"})}r.setAttribute("role","progressbar");e.lines(r,e.opts);if(!i){var u=0,p=(n.lines-1)*(1-n.direction)/2,c,h=n.fps,m=h/n.speed,y=(1-n.opacity)/(m*n.trail/100),g=m/n.lines;(function v(){u++;for(var t=0;t<n.lines;t++){c=Math.max(1-(u+(n.lines-t)*g)%m*y,n.opacity);e.opacity(r,t*n.direction+p,c,n)}e.timeout=e.el&&setTimeout(v,~~(1e3/h))})()}return e},stop:function(){var t=this.el;if(t){clearTimeout(this.timeout);if(t.parentNode)t.parentNode.removeChild(t);this.el=undefined}return this},lines:function(t,e){var r=0,a=(e.lines-1)*(1-e.direction)/2,l;function d(t,i){return f(o(),{position:"absolute",width:e.length+e.width+"px",height:e.width+"px",background:t,boxShadow:i,transformOrigin:"left",transform:"rotate("+~~(360/e.lines*r+e.rotate)+"deg) translate("+e.radius+"px"+",0)",borderRadius:(e.corners*e.width>>1)+"px"})}for(;r<e.lines;r++){l=f(o(),{position:"absolute",top:1+~(e.width/2)+"px",transform:e.hwaccel?"translate3d(0,0,0)":"",opacity:e.opacity,animation:i&&s(e.opacity,e.trail,a+r*e.direction,e.lines)+" "+1/e.speed+"s linear infinite"});if(e.shadow)n(l,f(d("#000","0 0 4px "+"#000"),{top:2+"px"}));n(t,n(l,d(e.color,"0 0 1px rgba(0,0,0,.1)")))}return t},opacity:function(t,e,i){if(e<t.childNodes.length)t.childNodes[e].style.opacity=i}});function c(){function t(t,e){return o("<"+t+' xmlns="urn:schemas-microsoft.com:vml" class="spin-vml">',e)}r.addRule(".spin-vml","behavior:url(#default#VML)");p.prototype.lines=function(e,i){var o=i.length+i.width,r=2*o;function s(){return f(t("group",{coordsize:r+" "+r,coordorigin:-o+" "+-o}),{width:r,height:r})}var a=-(i.width+i.length)*2+"px",l=f(s(),{position:"absolute",top:a,left:a}),d;function u(e,r,a){n(l,n(f(s(),{rotation:360/i.lines*e+"deg",left:~~r}),n(f(t("roundrect",{arcsize:i.corners}),{width:o,height:i.width,left:i.radius,top:-i.width>>1,filter:a}),t("fill",{color:i.color,opacity:i.opacity}),t("stroke",{opacity:0}))))}if(i.shadow)for(d=1;d<=i.lines;d++)u(d,-2,"progid:DXImageTransform.Microsoft.Blur(pixelradius=2,makeshadow=1,shadowopacity=.3)");for(d=1;d<=i.lines;d++)u(d);return n(e,l)};p.prototype.opacity=function(t,e,i,o){var n=t.firstChild;o=o.shadow&&o.lines||0;if(n&&e+o<n.childNodes.length){n=n.childNodes[e+o];n=n&&n.firstChild;n=n&&n.firstChild;if(n)n.opacity=i}}}var h=f(o("group"),{behavior:"url(#default#VML)"});if(!a(h,"transform")&&h.adj)c();else i=a(h,"animation");return p});
+//
+// USE howdown.js
+//
+// https://github.com/coreyti/showdown
+//
+// showdown.js -- A javascript port of Markdown.
+//
+// Copyright (c) 2007 John Fraser.
+//
+// Original Markdown Copyright (c) 2004-2005 John Gruber
+//   <http://daringfireball.net/projects/markdown/>
+//
+// Redistributable under a BSD-style open source license.
+// See license.txt for more information.
+//
+// The full source distribution is at:
+//
+//				A A L
+//				T C A
+//				T K B
+//
+//   <http://www.attacklab.net/>
+//
+//
+// Wherever possible, Showdown is a straight, line-by-line port
+// of the Perl version of Markdown.
+//
+// This is not a normal parser design; it's basically just a
+// series of string substitutions.  It's hard to read and
+// maintain this way,  but keeping Showdown close to the original
+// design makes it easier to port new features.
+//
+// More importantly, Showdown behaves like markdown.pl in most
+// edge cases.  So web applications can do client-side preview
+// in Javascript, and then build identical HTML on the server.
+//
+// This port needs the new RegExp functionality of ECMA 262,
+// 3rd Edition (i.e. Javascript 1.5).  Most modern web browsers
+// should do fine.  Even with the new regular expression features,
+// We do a lot of work to emulate Perl's regex functionality.
+// The tricky changes in this file mostly have the "attacklab:"
+// label.  Major or self-explanatory changes don't.
+//
+// Smart diff tools like Araxis Merge will be able to match up
+// this file with markdown.pl in a useful way.  A little tweaking
+// helps: in a copy of markdown.pl, replace "#" with "//" and
+// replace "$text" with "text".  Be sure to ignore whitespace
+// and line endings.
+//
+//
+// Showdown usage:
+//
+//   var text = "Markdown *rocks*.";
+//
+//   var converter = new Showdown.converter();
+//   var html = converter.makeHtml(text);
+//
+//   alert(html);
+//
+// Note: move the sample code to the bottom of this
+// file before uncommenting it.
+//
+//
+// Showdown namespace
+//
+var Showdown={extensions:{}},forEach=Showdown.forEach=function(a,b){if(typeof a.forEach=="function")a.forEach(b);else{var c,d=a.length;for(c=0;c<d;c++)b(a[c],c,a)}},stdExtName=function(a){return a.replace(/[_-]||\s/g,"").toLowerCase()};Showdown.converter=function(a){var b,c,d,e=0,f=[],g=[];if(typeof module!="undefind"&&typeof exports!="undefined"&&typeof require!="undefind"){var h=require("fs");if(h){var i=h.readdirSync((__dirname||".")+"/extensions").filter(function(a){return~a.indexOf(".js")}).map(function(a){return a.replace(/\.js$/,"")});Showdown.forEach(i,function(a){var b=stdExtName(a);Showdown.extensions[b]=require("./extensions/"+a)})}}this.makeHtml=function(a){return b={},c={},d=[],a=a.replace(/~/g,"~T"),a=a.replace(/\$/g,"~D"),a=a.replace(/\r\n/g,"\n"),a=a.replace(/\r/g,"\n"),a="\n\n"+a+"\n\n",a=M(a),a=a.replace(/^[ \t]+$/mg,""),Showdown.forEach(f,function(b){a=k(b,a)}),a=z(a),a=m(a),a=l(a),a=o(a),a=K(a),a=a.replace(/~D/g,"$$"),a=a.replace(/~T/g,"~"),Showdown.forEach(g,function(b){a=k(b,a)}),a};if(a&&a.extensions){var j=this;Showdown.forEach(a.extensions,function(a){typeof a=="string"&&(a=Showdown.extensions[stdExtName(a)]);if(typeof a!="function")throw"Extension '"+a+"' could not be loaded.  It was either not found or is not a valid extension.";Showdown.forEach(a(j),function(a){a.type?a.type==="language"||a.type==="lang"?f.push(a):(a.type==="output"||a.type==="html")&&g.push(a):g.push(a)})})}var k=function(a,b){if(a.regex){var c=new RegExp(a.regex,"g");return b.replace(c,a.replace)}if(a.filter)return a.filter(b)},l=function(a){return a+="~0",a=a.replace(/^[ ]{0,3}\[(.+)\]:[ \t]*\n?[ \t]*<?(\S+?)>?[ \t]*\n?[ \t]*(?:(\n*)["(](.+?)[")][ \t]*)?(?:\n+|(?=~0))/gm,function(a,d,e,f,g){return d=d.toLowerCase(),b[d]=G(e),f?f+g:(g&&(c[d]=g.replace(/"/g,"&quot;")),"")}),a=a.replace(/~0/,""),a},m=function(a){a=a.replace(/\n/g,"\n\n");var b="p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del|style|section|header|footer|nav|article|aside",c="p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|style|section|header|footer|nav|article|aside";return a=a.replace(/^(<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|ins|del)\b[^\r]*?\n<\/\2>[ \t]*(?=\n+))/gm,n),a=a.replace(/^(<(p|div|h[1-6]|blockquote|pre|table|dl|ol|ul|script|noscript|form|fieldset|iframe|math|style|section|header|footer|nav|article|aside)\b[^\r]*?<\/\2>[ \t]*(?=\n+)\n)/gm,n),a=a.replace(/(\n[ ]{0,3}(<(hr)\b([^<>])*?\/?>)[ \t]*(?=\n{2,}))/g,n),a=a.replace(/(\n\n[ ]{0,3}<!(--[^\r]*?--\s*)+>[ \t]*(?=\n{2,}))/g,n),a=a.replace(/(?:\n\n)([ ]{0,3}(?:<([?%])[^\r]*?\2>)[ \t]*(?=\n{2,}))/g,n),a=a.replace(/\n\n/g,"\n"),a},n=function(a,b){var c=b;return c=c.replace(/\n\n/g,"\n"),c=c.replace(/^\n/,""),c=c.replace(/\n+$/g,""),c="\n\n~K"+(d.push(c)-1)+"K\n\n",c},o=function(a){a=v(a);var b=A("<hr />");return a=a.replace(/^[ ]{0,2}([ ]?\*[ ]?){3,}[ \t]*$/gm,b),a=a.replace(/^[ ]{0,2}([ ]?\-[ ]?){3,}[ \t]*$/gm,b),a=a.replace(/^[ ]{0,2}([ ]?\_[ ]?){3,}[ \t]*$/gm,b),a=x(a),a=y(a),a=E(a),a=m(a),a=F(a),a},p=function(a){return a=B(a),a=q(a),a=H(a),a=t(a),a=r(a),a=I(a),a=G(a),a=D(a),a=a.replace(/  +\n/g," <br />\n"),a},q=function(a){var b=/(<[a-z\/!$]("[^"]*"|'[^']*'|[^'">])*>|<!(--.*?--\s*)+>)/gi;return a=a.replace(b,function(a){var b=a.replace(/(.)<\/?code>(?=.)/g,"$1`");return b=N(b,"\\`*_"),b}),a},r=function(a){return a=a.replace(/(\[((?:\[[^\]]*\]|[^\[\]])*)\][ ]?(?:\n[ ]*)?\[(.*?)\])()()()()/g,s),a=a.replace(/(\[((?:\[[^\]]*\]|[^\[\]])*)\]\([ \t]*()<?(.*?(?:\(.*?\).*?)?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g,s),a=a.replace(/(\[([^\[\]]+)\])()()()()()/g,s),a},s=function(a,d,e,f,g,h,i,j){j==undefined&&(j="");var k=d,l=e,m=f.toLowerCase(),n=g,o=j;if(n==""){m==""&&(m=l.toLowerCase().replace(/ ?\n/g," ")),n="#"+m;if(b[m]!=undefined)n=b[m],c[m]!=undefined&&(o=c[m]);else{if(!(k.search(/\(\s*\)$/m)>-1))return k;n=""}}n=N(n,"*_");var p='<a href="'+n+'"';return o!=""&&(o=o.replace(/"/g,"&quot;"),o=N(o,"*_"),p+=' title="'+o+'"'),p+=">"+l+"</a>",p},t=function(a){return a=a.replace(/(!\[(.*?)\][ ]?(?:\n[ ]*)?\[(.*?)\])()()()()/g,u),a=a.replace(/(!\[(.*?)\]\s?\([ \t]*()<?(\S+?)>?[ \t]*((['"])(.*?)\6[ \t]*)?\))/g,u),a},u=function(a,d,e,f,g,h,i,j){var k=d,l=e,m=f.toLowerCase(),n=g,o=j;o||(o="");if(n==""){m==""&&(m=l.toLowerCase().replace(/ ?\n/g," ")),n="#"+m;if(b[m]==undefined)return k;n=b[m],c[m]!=undefined&&(o=c[m])}l=l.replace(/"/g,"&quot;"),n=N(n,"*_");var p='<img src="'+n+'" alt="'+l+'"';return o=o.replace(/"/g,"&quot;"),o=N(o,"*_"),p+=' title="'+o+'"',p+=" />",p},v=function(a){function b(a){return a.replace(/[^\w]/g,"").toLowerCase()}return a=a.replace(/^(.+)[ \t]*\n=+[ \t]*\n+/gm,function(a,c){return A('<h1 id="'+b(c)+'">'+p(c)+"</h1>")}),a=a.replace(/^(.+)[ \t]*\n-+[ \t]*\n+/gm,function(a,c){return A('<h2 id="'+b(c)+'">'+p(c)+"</h2>")}),a=a.replace(/^(\#{1,6})[ \t]*(.+?)[ \t]*\#*\n+/gm,function(a,c,d){var e=c.length;return A("<h"+e+' id="'+b(d)+'">'+p(d)+"</h"+e+">")}),a},w,x=function(a){a+="~0";var b=/^(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/gm;return e?a=a.replace(b,function(a,b,c){var d=b,e=c.search(/[*+-]/g)>-1?"ul":"ol";d=d.replace(/\n{2,}/g,"\n\n\n");var f=w(d);return f=f.replace(/\s+$/,""),f="<"+e+">"+f+"</"+e+">\n",f}):(b=/(\n\n|^\n?)(([ ]{0,3}([*+-]|\d+[.])[ \t]+)[^\r]+?(~0|\n{2,}(?=\S)(?![ \t]*(?:[*+-]|\d+[.])[ \t]+)))/g,a=a.replace(b,function(a,b,c,d){var e=b,f=c,g=d.search(/[*+-]/g)>-1?"ul":"ol",f=f.replace(/\n{2,}/g,"\n\n\n"),h=w(f);return h=e+"<"+g+">\n"+h+"</"+g+">\n",h})),a=a.replace(/~0/,""),a};w=function(a){return e++,a=a.replace(/\n{2,}$/,"\n"),a+="~0",a=a.replace(/(\n)?(^[ \t]*)([*+-]|\d+[.])[ \t]+([^\r]+?(\n{1,2}))(?=\n*(~0|\2([*+-]|\d+[.])[ \t]+))/gm,function(a,b,c,d,e){var f=e,g=b,h=c;return g||f.search(/\n{2,}/)>-1?f=o(L(f)):(f=x(L(f)),f=f.replace(/\n$/,""),f=p(f)),"<li>"+f+"</li>\n"}),a=a.replace(/~0/g,""),e--,a};var y=function(a){return a+="~0",a=a.replace(/(?:\n\n|^)((?:(?:[ ]{4}|\t).*\n+)+)(\n*[ ]{0,3}[^ \t\n]|(?=~0))/g,function(a,b,c){var d=b,e=c;return d=C(L(d)),d=M(d),d=d.replace(/^\n+/g,""),d=d.replace(/\n+$/g,""),d="<pre><code>"+d+"\n</code></pre>",A(d)+e}),a=a.replace(/~0/,""),a},z=function(a){return a+="~0",a=a.replace(/(?:^|\n)```(.*)\n([\s\S]*?)\n```/g,function(a,b,c){var d=b,e=c;return e=C(e),e=M(e),e=e.replace(/^\n+/g,""),e=e.replace(/\n+$/g,""),e="<pre><code"+(d?' class="'+d+'"':"")+">"+e+"\n</code></pre>",A(e)}),a=a.replace(/~0/,""),a},A=function(a){return a=a.replace(/(^\n+|\n+$)/g,""),"\n\n~K"+(d.push(a)-1)+"K\n\n"},B=function(a){return a=a.replace(/(^|[^\\])(`+)([^\r]*?[^`])\2(?!`)/gm,function(a,b,c,d,e){var f=d;return f=f.replace(/^([ \t]*)/g,""),f=f.replace(/[ \t]*$/g,""),f=C(f),b+"<code>"+f+"</code>"}),a},C=function(a){return a=a.replace(/&/g,"&amp;"),a=a.replace(/</g,"&#60;"),a=a.replace(/>/g,"&#62;"),a=N(a,"*_{}[]\\",!1),a},D=function(a){return a=a.replace(/(\*\*|__)(?=\S)([^\r]*?\S[*_]*)\1/g,"<strong>$2</strong>"),a=a.replace(/(\*|_)(?=\S)([^\r]*?\S)\1/g,"<em>$2</em>"),a},E=function(a){return a=a.replace(/((^[ \t]*>[ \t]?.+\n(.+\n)*\n*)+)/gm,function(a,b){var c=b;return c=c.replace(/^[ \t]*>[ \t]?/gm,"~0"),c=c.replace(/~0/g,""),c=c.replace(/^[ \t]+$/gm,""),c=o(c),c=c.replace(/(^|\n)/g,"$1  "),c=c.replace(/(\s*<pre>[^\r]+?<\/pre>)/gm,function(a,b){var c=b;return c=c.replace(/^  /mg,"~0"),c=c.replace(/~0/g,""),c}),A("<blockquote>\n"+c+"\n</blockquote>")}),a},F=function(a){a=a.replace(/^\n+/g,""),a=a.replace(/\n+$/g,"");var b=a.split(/\n{2,}/g),c=[],e=b.length;for(var f=0;f<e;f++){var g=b[f];g.search(/~K(\d+)K/g)>=0?c.push(g):g.search(/\S/)>=0&&(g=p(g),g=g.replace(/^([ \t]*)/g,"<p>"),g+="</p>",c.push(g))}e=c.length;for(var f=0;f<e;f++)while(c[f].search(/~K(\d+)K/)>=0){var h=d[RegExp.$1];h=h.replace(/\$/g,"$$$$"),c[f]=c[f].replace(/~K\d+K/,h)}return c.join("\n\n")},G=function(a){return a=a.replace(/&(?!#?[xX]?(?:[0-9a-fA-F]+|\w+);)/g,"&amp;"),a=a.replace(/<(?![a-z\/?\$!])/gi,"&#60;"),a},H=function(a){return a=a.replace(/\\(\\)/g,O),a=a.replace(/\\([`*_{}\[\]()>#+-.!])/g,O),a},I=function(a){return a=a.replace(/<((https?|ftp|dict):[^'">\s]+)>/gi,'<a href="$1">$1</a>'),a=a.replace(/<(?:mailto:)?([-.\w]+\@[-a-z0-9]+(\.[-a-z0-9]+)*\.[a-z]+)>/gi,function(a,b){return J(K(b))}),a},J=function(a){var b=[function(a){return"&#"+a.charCodeAt(0)+";"},function(a){return"&#x"+a.charCodeAt(0).toString(16)+";"},function(a){return a}];return a="mailto:"+a,a=a.replace(/./g,function(a){if(a=="@")a=b[Math.floor(Math.random()*2)](a);else if(a!=":"){var c=Math.random();a=c>.9?b[2](a):c>.45?b[1](a):b[0](a)}return a}),a='<a href="'+a+'">'+a+"</a>",a=a.replace(/">.+:/g,'">'),a},K=function(a){return a=a.replace(/~E(\d+)E/g,function(a,b){var c=parseInt(b);return String.fromCharCode(c)}),a},L=function(a){return a=a.replace(/^(\t|[ ]{1,4})/gm,"~0"),a=a.replace(/~0/g,""),a},M=function(a){return a=a.replace(/\t(?=\t)/g,"    "),a=a.replace(/\t/g,"~A~B"),a=a.replace(/~B(.+?)~A/g,function(a,b,c){var d=b,e=4-d.length%4;for(var f=0;f<e;f++)d+=" ";return d}),a=a.replace(/~A/g,"    "),a=a.replace(/~B/g,""),a},N=function(a,b,c){var d="(["+b.replace(/([\[\]\\])/g,"\\$1")+"])";c&&(d="\\\\"+d);var e=new RegExp(d,"g");return a=a.replace(e,O),a},O=function(a,b){var c=b.charCodeAt(0);return"~E"+c+"E"}},typeof module!="undefined"&&(module.exports=Showdown),typeof define=="function"&&define.amd&&define("showdown",function(){return Showdown});
+//
+// USE vxjs
+//
+//https://code.google.com/p/vxjs/
+var _=_?_:{}
+_.ajax=_.X=function(u,f,d,x){x=new(window.ActiveXObject||XMLHttpRequest)('Microsoft.XMLHTTP')
+x.open(d?'POST':'GET',u,1);x.setRequestHeader('Content-type','application/x-www-form-urlencoded');x.onreadystatechange=function(){x.readyState>3&&f&&f(x.responseText,x)};x.send(d)}
+//
+//////////////////////////////////////////////////////////////////////////////
+// Markdown Chrome Core                                                     //
+//////////////////////////////////////////////////////////////////////////////
+MarkdownChromeConfig.spinner = {
+  container: "spinner",           // the element id of spinner container
+  lines: 11,                      // The number of lines to draw
+  length: 3,                      // The length of each line
+  width: 2,                       // The line thickness
+  radius: 4,                      // The radius of the inner circle
+  corners: 1,                     // Corner roundness (0..1)
+  rotate: 0,                      // The rotation offset
+  direction: 1,                   // 1: clockwise, -1: counterclockwise
+  color: '#000',                  // #rgb or #rrggbb
+  speed: 1,                       // Rounds per second
+  trail: 60,                      // Afterglow percentage
+  shadow: false,                 // Whether to render a shadow
+  hwaccel: false,                // Whether to use hardware acceleration
+  className: 'spinner',           // The CSS class to assign to the spinner
+  zIndex: 2e9,                    // The z-index (defaults to 2000000000)
+  top: '11px',                    // Top position relative to parent in px
+  left: '11px'                    // Left position relative to parent in px
+};
+// MarkdownChrome Name Space
+( function ( window, namespace ) {
+
+  //debug for unsupport push/popState Browser
+  //window.pushState = null;
+
+  window[ namespace ] = {};
+
+  var checkenvMsg = checkenv();
+  if ( ! checkenvMsg.result ) {
+    for ( var i = 0; i < checkenvMsg.errors.length; i++ ) {
+      alert( checkenvMsg.errors[ i ] );
+    }
+    return false;
+  }
+
+  var book;
+  var printer;
+
+  var onloadAction = function () {
+
+    // make spinner
+    var spinner = new Spinner( MarkdownChromeConfig.spinner ).spin( document.getElementById( MarkdownChromeConfig.spinner.container ) );
+
+    // make book
+    book = new Book( MarkdownChromeConfig ); 
+
+    // make printer
+    window[ namespace ].printer = new window[ namespace ].Printer( MarkdownChromeConfig, book );
+    printer = window[ namespace ].printer;
+    printer.spool(); 
+
+    // make get source button
+    if ( MarkdownChromeConfig.getSource && MarkdownChromeConfig.getSourceButton ) {
+      document.getElementById( MarkdownChromeConfig.getSourceButton ).addEventListener( "click", function ( e ) {
+        MarkdownChromeConfig.getSource( printer.getSource() );
+        e.preventDefault();
+      });
+    }
+
+  };
+
+  var onpopstateAction = function () { 
+     if ( book.pv > 1 ) { // ignore onload
+       printer.print(); 
+     }
+  }
+
+  if ( window.addEventListener ) {
+    window.addEventListener( "load", onloadAction );
+    window.addEventListener( "popstate", onpopstateAction );
+  }
+  else if( window.attachEvent ) {
+    window.attachEvent( "load", onloadAction );
+  }
+
+  // Printer Class
+  window[ namespace ].Printer = function ( config, book ) {
+    this.config = config;
+    this.converter = new Showdown.converter();
+    this.book = book;
+    this.preloaded = new Object();
+
+  }
+  window[ namespace ].Printer.prototype = {
+
+    config: null, 
+    index: null,
+    indexHeader: null,
+    indexFooter: null,
+    mdToIndex: null,
+    indexToMd: null,
+    converter: null,
+    book: null,
+    pages: null,
+    headers: null,
+    footers: null,
+    assemblees: null,
+    assembleCount: 0,
+    totalAssembleCount: 0,
+    assembleOffset: 1,
+    preloaded: null,
+    sources: null,
+
+    spool: function () {
+
+      var maked = this.makePage({ 
+        md: "", 
+        source: document.getElementById( this.config.container ).innerHTML.replace( /&gt;/g, ">" )
+      });
+      this.index = maked.pages;
+      this.indexHeader = maked.header;
+      this.indexFooter = maked.footer;
+      this.makeIndexMap();
+
+      // Sequential Access Mode 
+      if ( this.config.sequentialAccess ) {
+        if ( this.indexToMd.length > 0 ) {
+          this.makeSequentialAccessor();
+        }
+      }
+
+      // Preloading Mode
+      if ( this.config.preloading ) {
+        if ( this.indexToMd.length > 0 ) {
+          this.preload();
+        }
+      }
+      else {
+        this.print();
+      }
+
+    },
+
+    print: function ( href ) {
+
+      var md = "";
+      var offset = 1;
+
+      if ( href ) { // on click link  through page.addClickEvent 
+
+        // pushState
+        var pushedHref = String( href );
+        if ( pushedHref.match( /^\?$/ ) || pushedHref.match( /^\?#/ ) ) {
+          pushedHref = pushedHref.replace( /^\?/, "" );
+        }
+        if ( pushedHref.match( /#$/ ) ) {
+          pushedHref = pushedHref.replace( /#$/, "" );
+        }
+        if ( pushedHref == "" ) {
+          pushedHref = location.pathname;
+        }
+        history.pushState( "", "", pushedHref );
+        
+        // get md and offset
+        if ( href.match( /^\?/ ) ) {
+          md = href.replace( /^\?/, "" ).replace( /#.*$/, "" );
+        }
+        if ( href.match( /#([0-9]+)/ ) ) { // #3, #3foo -> offset = 3
+          offset = RegExp.$1; 
+        }
+
+      }
+      else { // onload or onpopState
+
+        if ( location.search ) {
+          md = decodeURIComponent( location.search.replace( /^\?/, "" ) );
+        }
+        if ( location.hash ) {
+          if ( location.hash.match( /#([0-9]+)/ ) ) { // #3, #3foo -> offset = 3
+            offset = RegExp.$1; 
+          }
+        }
+
+      }
+
+      var printer = this;
+      if ( md ) {
+
+        var mds = md.split( /,/ );
+
+        var printer = this;
+        this.pages = new Array();
+        this.headers = new Array();
+        this.footers = new Array();
+        this.assemblees = new Array();
+        this.assembleCount = 0;
+        this.totalAssembleCount = mds.length;
+        this.assembleOffset = offset;
+        this.sources = new Object();
+
+        for ( var i = 0; i < mds.length; i++ ) { ( function () {
+          var pos = Number( i );
+          if ( printer.config.preloading && printer.preloaded[ mds[ i ] ] ) { 
+            printer.assemble( printer.preloaded[ mds[ i ] ], pos );
+          }
+          else {
+            printer.startSpinner();
+            var md = mds[ i ];
+            _.X( encodeURIComponent( md + ".md" ), function ( response, xhr ) { 
+              if ( xhr.status == "404" ) {
+                response = "\n\nFile Not Found\n\n";
+              } 
+              printer.sources[ md ] = response;
+              printer.assemble( md, response, pos );
+            })
+          }
+
+        })()}
+
+      }
+      else {
+        this.bind( this.index, offset, this.indexHeader, this.indexFooter );
+      }
+
+    },
+
+    assemble: function ( md, source, pos ) {
+
+      this.assemblees[ pos ] = {
+        source: source,
+        md: md
+      };
+      this.assembleCount++;
+
+      if ( this.assembleCount == this.totalAssembleCount ) {
+        for ( var i = 0; i < this.assemblees.length; i++ ) {
+          var maked = this.makePage( this.assemblees[ i ] );
+          this.pages = this.pages.concat( maked.pages );
+          this.headers.push( maked.header );
+          this.footers.push( maked.footer );
+        }
+        this.bind( this.pages, this.assembleOffset, this.headers[0], this.footers[0] );
+        this.stopSpinner();
+      }
+
+    },
+    
+    bind: function ( pages, offset, header, footer ) {
+
+      this.book.set( pages );
+      if ( header ) {
+        this.book.setHeader( header );
+      }
+      if ( footer ) {
+        this.book.setFooter( footer );
+      }
+      this.book.start( offset );
+      if ( this.config.sequentialAccess && this.indexToMd.length > 0 ) {
+        var printer = this;
+        setTimeout( function () { printer.initSequentialAccessor() }, 0 );
+      }
+
+    },
+
+    makePage: function ( arg ) {
+
+      var md = arg.md;
+      var source = arg.source;
+
+      var pages = new Array();
+      if ( ! source ) {
+        return pages;
+      }
+
+      var header = "";
+      var footer = "";
+
+      if ( source.match( /<!--\s*header\s*-->[\s\S]+<!--\s*\/\s*header\s*-->/ ) ) {
+        source = source.replace( /<!--\s*header\s*-->([\s\S]+)<!--\s*\/\s*header\s*-->/, "" ); 
+        header = this.converter.makeHtml( RegExp.$1 );
+      }
+      if ( source.match( /<!--\s*footer\s*-->[\s\S]+<!--\s*\/\s*footer\s*-->/ ) ) {
+        source = source.replace( /<!--\s*footer\s*-->([\s\S]+)<!--\s*\/\s*footer\s*-->/, "" );  
+        footer = this.converter.makeHtml( RegExp.$1 );
+      }
+
+      var splits = source.split( /\r*\n\r*\n+=+\r*\n\r*\n+/ );
+      for ( var i = 0; i < splits.length; i++ ) {
+        var page = new Page({
+          md: md,
+          container: document.getElementById( this.config.container )
+        });
+        if ( splits[ i ] && ! splits[ i ].match( /^\s+$/ ) ) { // skip empty page
+          page.set( this.converter.makeHtml( splits[ i ] ) );
+          pages.push( page );
+        }
+      }
+      return {
+        pages: pages,
+        header: header,
+        footer: footer
+      };
+    },
+
+    makeIndexMap: function () {
+
+      this.mdToIndex = new Object();
+      this.indexToMd = new Array();
+      var container = document.getElementById( this.config.container ); 
+      var anchors = this.index[0].content ? this.index[0].content.match( /href="\?[^"]*"/g ) : null;
+      var index = 0;
+
+      if ( anchors ) {
+        for ( var i = 0; i < anchors.length; i++ ) {
+          var md = anchors[i].replace( /^href="\?/, "" ).replace( /"$/, "" ).replace( /#.*$/, "" ); 
+          if ( md && ! this.mdToIndex[ md ] ) {
+            this.mdToIndex[ md ] = index;
+            index++;
+          }
+        }
+
+        for ( md in this.mdToIndex ) {
+          this.indexToMd[ this.mdToIndex[ md ] ] = md;
+        }
+      }
+
+    },
+
+    makeSequentialAccessor: function () {
+
+      var sequentialAccessor = document.getElementById( this.config.sequentialAccessorTemplate ).innerHTML;
+
+      var container = document.getElementById( this.config.sequentialAccessor );
+      container.innerHTML = sequentialAccessor;      
+
+      var anchors = container.getElementsByTagName( "a" );
+
+      for ( var i = 0; i < anchors.length; i++ ) {
+        if ( anchors[ i ].parentNode.getAttribute( "id" ) == "prevIndex" ) {
+          anchors[ i ].onclick = function ( e ) {
+            printer.prevIndex();
+            e.preventDefault();
+          }
+        } 
+        else if ( anchors[ i ].parentNode.getAttribute( "id" ) == "nextIndex" ) {
+          anchors[ i ].onclick = function ( e ) {
+            printer.nextIndex();
+            e.preventDefault();
+          }
+        }
+      }
+
+    },
+
+    initSequentialAccessor: function () {
+
+      var md = decodeURIComponent( window.location.search ).replace( /^\?/, "" );
+      var current =  this.mdToIndex[ md ]; 
+      var total = this.indexToMd.length;
+
+      document.getElementById( "currentIndex" ).innerHTML = current + 1;
+      document.getElementById( "totalIndex" ).innerHTML = total;
+
+      if ( current >= 0 ) {
+        if ( current == 0 ) {
+          document.getElementById( "prevIndex" ).setAttribute( "class", "disabled" ); 
+        }
+        else {
+          document.getElementById( "prevIndex" ).setAttribute( "class", "" ); 
+        }
+        if ( current + 1 == total  ) {
+          document.getElementById( "nextIndex" ).setAttribute( "class", "disabled" ); 
+        }
+        else {
+          document.getElementById( "nextIndex" ).setAttribute( "class", "" ); 
+        }
+        document.getElementById( this.config.sequentialAccessor ).style.display = "block";
+      }
+      else {
+        document.getElementById( this.config.sequentialAccessor ).style.display = "none";
+      }
+
+    },
+
+    nextIndex: function () {
+
+      var md = decodeURIComponent( window.location.search ).replace( /^\?/, "" );
+      if ( this.mdToIndex[ md ] >= 0  && this.mdToIndex[ md ] + 1 != this.indexToMd.length ) {
+        if ( window.history && window.history.pushState ) {
+          this.print( "?" + this.indexToMd[ this.mdToIndex[ md ] + 1 ] );
+        }
+        else {
+          window.location.href = "?" + encodeURIComponent( this.indexToMd[ this.mdToIndex[ md ] + 1 ] );
+        }
+      }
+
+    },
+
+    prevIndex: function () {
+
+      var md = decodeURIComponent( window.location.search ).replace( /^\?/, "" );
+      if ( this.mdToIndex[ md ] >= 0 && this.mdToIndex[ md ] != 0 ) {
+        if ( window.history && window.history.pushState ) {
+          this.print( "?" + this.indexToMd[ this.mdToIndex[ md ] - 1 ] );
+        }
+        else {
+          window.location.href = "?" + encodeURIComponent( this.indexToMd[ this.mdToIndex[ md ] - 1 ] );  
+        }
+      }
+
+    },
+
+    preload: function () {
+
+      this.startSpinner();
+      var printer = this;
+
+      var progress = {
+        mds: this.indexToMd.join(",").split(","), // e.g. [ "a", "b,c", "d" ] -> [ "a", "b", "c", "d" ] 
+        preloadedMds: 0,
+        images: new Array(),
+        preloadedImages: 0
+      };
+
+      for ( var i = 0; i < this.indexToMd.length; i++ ) { ( function () {
+
+        var mds = printer.indexToMd[ i ].split( "," );
+        
+        for ( var j = 0; j < mds.length; j++ ) { ( function () {
+
+          var md = String( mds[ j ] );
+
+          _.X( encodeURIComponent( md + ".md" ), function ( response ) {  
+
+            printer.preloaded[ md ] = response;
+
+            response.replace( /[="'\( ]([^"'\)\s]+)\.(png|jpg|gif)/ig, function ( match, name, ext ) {
+              progress.images.push( name + "." + ext );
+            });
+
+            progress.preloadedMds++;
+
+            if ( progress.mds.length == progress.preloadedMds ) {
+
+              if ( progress.images.length ) {
+
+                for ( var k = 0; k < progress.images.length; k++ ) { ( function () { 
+
+                  var image = new Image();
+
+                  image.onload = function () {
+
+                    progress.preloadedImages++;
+
+                    if ( progress.images.length == progress.preloadedImages ) {
+                      printer.onPreload();  
+                    }
+
+                  }
+
+                  image.src = progress.images[ k ];
+
+                })()}
+
+              }
+              else {
+                printer.onPreload();
+              }
+
+            }   
+
+          });
+
+        })()}
+
+      })()}
+
+    },
+
+    onPreload: function () {
+
+      this.stopSpinner();
+      this.print();
+
+    },
+
+    getSource: function () {
+
+      return {
+        filename: this.book.pages[ this.book.current - 1 ].md,
+        source: this.sources[ this.book.pages[ this.book.current - 1 ].md ]
+      }
+      
+    },
+    
+    startSpinner: function () {
+
+      var spinner = document.getElementById( this.config.spinner.container );
+      var scrollTop = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop;
+      spinner.style.top = scrollTop + ( window.innerHeight / 2 - Number( spinner.style.height.replace( /px/, "" ) ) / 2 ) + "px";
+      spinner.style.left = window.innerWidth / 2 - Number( spinner.style.width.replace( /px/, "" ) ) / 2 + "px";
+      spinner.style.display = "block";
+
+    },
+    
+    stopSpinner: function () {
+
+      var spinner = document.getElementById( this.config.spinner.container );
+      spinner.style.display = "none";
+
+    }
+
+  }
+
+  // Book Class
+  var Book = function ( config ) {
+
+    this.config = config;
+    this.pages = new Array();
+
+  }
+  Book.prototype = {
+
+    config: null,
+    pages: null,
+    current: null,
+    paginations: null,
+    paginationNext: null,
+    paginationPrev: null,
+    pv: 0,
+
+    set: function ( pages ) {
+
+      this.pages = pages;
+
+    },
+
+    setHeader: function ( header ) {
+      for ( var i = 0; i < this.pages.length; i++ ) {
+        this.pages[ i ].setHeader( header );
+      }
+    },
+
+    setFooter: function ( footer ) {
+      for ( var i = 0; i < this.pages.length; i++ ) {
+        this.pages[ i ].setFooter( footer );
+      }
+    },
+
+    start: function ( offset ) {
+
+      this.current = offset ? offset : 1;
+      this.goto( this.current );
+
+    },
+
+    makePagination: function () {
+
+      this.paginations = new Array();
+      var pagination = "";
+
+      var template = document.getElementById( this.config.paginationTemplate ).innerHTML;
+      var header = template.match( /^([\s\S]*){loop pages}/ )[ 1 ];
+      var loop = template.match( /{loop pages}([\s\S]*){endloop}/ )[ 1 ];
+      var footer = template.match( /{endloop}([\s\S]*)$/ )[ 1 ];
+
+      if ( this.pages.length >= 9 ) {
+        pagination += header.replace( /{if small}[\s\S]*?{endif}/, "" ).replace( /{[^}]+}/g, "" );
+      }
+      else {
+        pagination += header.replace( /{if mini}[\s\S]*?{endif}/, "" ).replace( /{[^}]+}/g, "" );
+      }
+
+      var paginationNumbers = this.getPaginationNumbers( this.current, this.pages.length );
+
+      for ( var i = 0; i < paginationNumbers.length; i++ ) {
+        if ( String( paginationNumbers[ i ] ).match( /^[0-9]+$/ ) ) {
+          pagination += loop.replace( /{if disabled}[\s\S]*?{endif}/, "" ).replace( /{offset}/, paginationNumbers[ i ] ).replace( /{[^}]+}/g, "" );
+        }
+        else {
+          pagination += loop.replace( /{if active}[\s\S]*?{endif}/, "" ).replace( /{offset}/, paginationNumbers[ i ] ).replace( /{[^}]+}/g, "" );
+        }
+      }
+
+      pagination += footer;
+
+      var container = document.getElementById( this.config.pagination ); 
+      container.innerHTML = pagination;
+
+      var anchors = container.getElementsByTagName( "a" ) ;
+
+      for ( var i = 0; i < anchors.length; i++ ) {
+       if ( anchors[ i ].getAttribute( "class" ) == "paginationPrev" ) {
+         this.paginationPrev = anchors[ i ];
+         anchors[ i ].onclick = function ( e ) {
+           book.prev();
+           e.preventDefault();
+         }
+       } 
+       else if ( anchors[ i ].getAttribute( "class" ) == "paginationNext" ) {
+         this.paginationNext = anchors[ i ];
+         anchors[ i ].onclick = function ( e ) {
+           book.next();
+           e.preventDefault();
+         }
+       }
+       else if ( anchors[ i ].getAttribute( "class" ) == "paginationOffset" && anchors[ i ].innerHTML.match( /^[0-9]+$/ ) ) {
+         this.paginations[ Number( anchors[ i ].innerHTML ) ] = anchors[ i ];
+         if ( Number( anchors[ i ].innerHTML ) == this.current ) {
+           anchors[ i ].parentNode.setAttribute( "class", "active" );
+         }
+         else {
+          anchors[ i ].parentNode.setAttribute( "class", "" );
+         }
+         anchors[ i ].onclick = function ( e ) {
+           book.jump( this.innerHTML );
+           e.preventDefault();
+         }
+       }
+      }
+        
+      if ( this.current == 1) {
+        this.paginationPrev.parentNode.setAttribute( "class", "disabled" );
+      }
+      else {
+        this.paginationPrev.parentNode.setAttribute( "class", "" );
+      }
+
+      if ( this.current == this.pages.length ) {
+        this.paginationNext.parentNode.setAttribute( "class", "disabled" );
+      }
+      else {
+        this.paginationNext.parentNode.setAttribute( "class", "" );
+      }
+    
+    },
+
+    getPaginationNumbers: function ( target, total ) {
+
+      var max = 9; // must be odd
+      var median = Math.floor( max / 2 ) + 1
+      var pageNumbers = new Array();
+
+      if ( total <= max ) {
+
+        for ( var i = 1; i <= total; i++ ) {
+          pageNumbers.push( i );
+        }
+
+      }
+      else {
+
+        if ( target <= median ) {
+          for ( var i = 1; i <= target; i++ ) {
+            pageNumbers.push( i );
+          }
+          for ( var i = target + 1; i <= max - 2; i++ ) {
+            pageNumbers.push( i );  
+          }
+          pageNumbers.push( "&hellip;" );
+          pageNumbers.push( total );
+        }
+        else if ( target > median ) {
+          pageNumbers.push( 1 );
+          pageNumbers.push( "&hellip;" );
+          if ( total - target <= max - median ) {
+            for ( var i = total - ( max - 3 );  i <= total; i++ ) {
+              pageNumbers.push( i );
+            }
+          }
+          else {
+            for ( var i = target - 2; i <= target; i++ ) {
+              pageNumbers.push( i );
+            }
+            for ( var i = target + 1; i <= target + 2; i++ ) {
+              pageNumbers.push( i );
+            }
+            pageNumbers.push( "&hellip;" );
+            pageNumbers.push( total );
+          }
+        }
+
+      }  
+
+      return pageNumbers;
+
+    },
+
+    goto: function ( number ) {
+
+      if ( number > 0 && number <= this.pages.length ) {
+
+        this.pv++;
+        this.current = Number( number );
+        this.pages[ this.current - 1 ].show();
+        setTimeout( function() { window.scrollTo( 0, 0 ) }, 100 );
+
+        if ( this.pages.length > 1 ) {
+          this.makePagination();
+          document.getElementById( this.config.pagination ).style.display = "block";
+        }
+        else {
+          document.getElementById( this.config.pagination ).style.display = "none";
+        }
+
+        if ( this.config.onPrint ) { //onPrint
+          this.config.onPrint();
+        }
+
+      }
+
+    },
+
+    next: function () {
+
+      if ( this.current + 1 <= this.pages.length ) {
+        this.goto( this.current + 1 );
+        this.pushState();
+      }
+
+    },
+
+    prev: function () {
+
+      if ( this.current - 1 > 0 ) {
+        this.goto( this.current - 1 );
+        this.pushState();
+      }
+
+    },
+
+    jump: function ( number ) {
+
+      if ( number != this.current ) {
+        this.goto( number );
+        this.pushState();
+      }
+
+    },
+
+    pushState: function () {
+
+      if ( location.hash.replace( /^#/, "" ) != this.current  ) {
+        if ( window.history && window.history.pushState ) {
+          history.pushState( "", "", "#" + this.current );
+        }
+        else {
+          window.location.hash = "#" + this.current;
+        }
+      }
+
+    }
+
+  }
+
+  // Page Class
+  var Page = function ( arg ) {
+
+    this.md = arg.md;
+    this.container = arg.container;
+
+  }
+  Page.prototype = {
+
+    md: null,
+    content: null,
+    header: null,
+    footer: null,
+    container: null,
+
+    set: function ( content ) {
+
+      this.content = content;
+
+    },
+    
+    setHeader: function ( header ) {
+
+      this.header = header
+      
+    },
+
+    setFooter: function ( footer ) {
+
+      this.footer = footer
+      
+    },
+
+    show: function () {
+    
+      var header = this.header ? this.header : "";
+      var footer = this.footer ? this.footer : "";
+      this.container.innerHTML = header + this.content + footer;        
+      this.container.style.display = "block"; 
+      this.addClickEvent();
+
+    },
+
+    addClickEvent: function () {
+
+      if ( window.history && window.history.pushState ) {
+
+        var anchors = document.getElementsByTagName( "a" );
+        var page = this;
+        for( var i = 0; i < anchors.length; i++ ) {
+
+          var href = anchors[ i ].getAttribute( "href" );
+          if ( href && href.match( /^\?/ ) ) {
+            anchors[ i ].onclick = function ( e ) { 
+              printer.print( this.getAttribute( "href" ) );
+              e.preventDefault();
+            }
+          }
+
+        }
+
+      }
+
+    }
+
+  }
+
+  function checkenv () {
+
+    var config = MarkdownChromeConfig;
+    var msg = {
+      result: true,
+      errors: new Array()
+    }
+
+    if ( ! config.container ) {
+      msg.result = false;
+      msg.errors.push( "container element id is not defined." );
+    }
+
+    if ( config.container && ! document.getElementById( config.container ) ) {
+      msg.result = false;
+      msg.errors.push( "container element does not exist." );
+    }
+
+    if ( ! config.pagination ) {
+      msg.result = false;
+      msg.errors.push( "pagination element id is not defined." );
+    }
+
+    if ( config.pagination && ! document.getElementById( config.pagination ) ) {
+      msg.result = false;
+      msg.errors.push( "pagination element does not exist." );
+    }
+
+    if ( ! config.paginationTemplate ) {
+      msg.result = false;
+      msg.errors.push( "pagination template element id is not defined." );
+    }
+
+    if ( config.paginationTemplate &&  ! document.getElementById( config.paginationTemplate ) ) {
+      msg.result = false;
+      msg.errors.push( "pagination template element does not exist." );
+    }
+
+    if ( config.sequentialAccess &&  ! config.sequentialAccessor ) {
+      msg.result = false;
+      msg.errors.push( "sequential accessor element id is not defined." );
+    }
+
+    if ( config.sequentialAccess && config.sequentialAccessor && ! document.getElementById( config.sequentialAccessor ) ) {
+      msg.result = false;
+      msg.errors.push( "sequential accessor element does not exist." );
+    }
+
+    if ( config.sequentialAccess && ! config.sequentialAccessorTemplate ) {
+      msg.result = false;
+      msg.errors.push( "sequential accessor template element id is not defined." );
+    }
+
+    if ( config.sequentialAccess && config.sequentialAccessorTemplate && ! document.getElementById( config.sequentialAccessorTemplate ) ) {
+      msg.result = false;
+      msg.errors.push( "sequential accessor template element does not exist." );
+    }
+
+    return msg;
+    
+  }
+
+}( this, "MarkdownChrome" ));
+
+</script>
+<!-- ===================================================================== -->
+
+</body>
+</html>

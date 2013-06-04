@@ -1,0 +1,13 @@
+body { margin-bottom: 60px }
+footer { margin-bottom: 0 }
+footer p { margin: 0 }
+.navbar-fixed-bottom { margin-top: 0 }
+@media ( max-width:979px ){ body { margin-bottom: 0 } footer { margin-bottom: 20px } }
+h1,h2,h3,h4,h5,h6 { margin: 20px 0 }
+a:hover, a:focus { color: #0088cc; text-decoration: none; }
+.navbar-static-top { margin-bottom: 20px }
+.navbar .nav>.disabled>a,.navbar .nav>.disabled>a:hover,.navbar .nav>.disabled>a:focus{color:#eee;text-decoration:none;background:none;-webkit-box-shadow:none;-moz-box-shadow:none;box-shadow:none;cursor: default;}
+.navbar .nav>.disabled>a [class^="icon-"],.navbar .nav>.disabled>a [class*=" icon-"]{cursor: default;}
+.navbar-inverse .brand:hover, .navbar-inverse .nav>li>a:hover, .navbar-inverse .brand:focus, .navbar-inverse .nav>li>a:focus { color: #999999; }
+.pagination ul>li>a:hover, .pagination ul>li>a:focus, .pagination ul>.active>a, .pagination ul>.active>span { background-color: #ffffff; }
+.navbar .nav>li>a:focus, .navbar .nav>li>a:hover { background-color: transparent; color: #777777; text-decoration: none; }
