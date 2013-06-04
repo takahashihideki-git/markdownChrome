@@ -891,19 +891,22 @@ MarkdownChromeConfig.spinner = {
 
         this.pv++;
         this.current = Number( number );
-        this.pages[ this.current - 1 ].show();
-        setTimeout( function() { window.scrollTo( 0, 0 ) }, 100 );
+        
+        if ( this.pages[ this.current - 1 ] ) {
+          this.pages[ this.current - 1 ].show();
+          setTimeout( function() { window.scrollTo( 0, 0 ) }, 100 );
 
-        if ( this.pages.length > 1 ) {
-          this.makePagination();
-          document.getElementById( this.config.pagination ).style.display = "block";
-        }
-        else {
-          document.getElementById( this.config.pagination ).style.display = "none";
-        }
+          if ( this.pages.length > 1 ) {
+            this.makePagination();
+            document.getElementById( this.config.pagination ).style.display = "block";
+          }
+          else {
+            document.getElementById( this.config.pagination ).style.display = "none";
+          }
 
-        if ( this.config.onPrint ) { //onPrint
-          this.config.onPrint();
+          if ( this.config.onPrint ) { //onPrint
+            this.config.onPrint();
+          }
         }
 
       }
