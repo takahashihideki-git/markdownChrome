@@ -67,6 +67,8 @@
 <!-- ===================================================================== -->
 <script>
 var MarkdownChromeConfig = {
+  // the element id for markdown content index container ---------------------
+  index:                                                            "content",                                       
   // the element id for markdown content container ---------------------------
   container:                                                        "content",                                       
   // the element id for paginatinon ------------------------------------------
@@ -74,7 +76,7 @@ var MarkdownChromeConfig = {
   // the element id of pagination template -----------------------------------
   paginationTemplate:                                   "template-pagination",                 
   // use sequential accessor -------------------------------------------------
-  sequentialAccess:                                                    false,                                    
+  sequentialAccess:                                                    true,                                    
   // the element id for sequential accessor ----------------------------------
   sequentialAccessor:                                    "sequentialAccessor",                  
   // the element id of sequentialAccessor template ---------------------------
@@ -312,13 +314,28 @@ MarkdownChromeConfig.spinner = {
 
     spool: function () {
 
-      var maked = this.makePage({ 
+      var top = this.makePage({ 
         md: "", 
         source: document.getElementById( this.config.container ).innerHTML.replace( /&gt;/g, ">" )
       });
-      this.index = maked.pages;
-      this.indexHeader = maked.header;
-      this.indexFooter = maked.footer;
+      this.top = top.pages;
+      this.topHeader = top.header;
+      this.topFooter = top.footer;
+
+      if ( this.config.index == this.config.container ) {
+        this.index = this.top;
+      }
+      else {
+        var index = this.makePage({ 
+          md: "", 
+          source: document.getElementById( this.config.index ).innerHTML.replace( /&gt;/g, ">" )
+        }); 
+        this.index = index.pages;
+        if ( this.index[ 0 ] ) {
+          document.getElementById( this.config.index ).innerHTML = this.index[ 0 ].content; 
+        }
+      }
+
       this.makeIndexMap();
 
       // Sequential Access Mode 
@@ -418,7 +435,7 @@ MarkdownChromeConfig.spinner = {
 
       }
       else {
-        this.bind( this.index, offset, this.indexHeader, this.indexFooter );
+        this.bind( this.top, offset, this.topHeader, this.topFooter );
       }
 
     },
@@ -505,22 +522,28 @@ MarkdownChromeConfig.spinner = {
 
       this.mdToIndex = new Object();
       this.indexToMd = new Array();
-      var container = document.getElementById( this.config.container ); 
-      var anchors = this.index[0].content ? this.index[0].content.match( /href="\?[^"]*"/g ) : null;
-      var index = 0;
 
-      if ( anchors ) {
-        for ( var i = 0; i < anchors.length; i++ ) {
-          var md = anchors[i].replace( /^href="\?/, "" ).replace( /"$/, "" ).replace( /#.*$/, "" ); 
-          if ( md && ! this.mdToIndex[ md ] ) {
-            this.mdToIndex[ md ] = index;
-            index++;
+      if ( this.index[0] ) {
+
+        var anchors = this.index[0].content ? this.index[0].content.match( /href="\?[^"]*"/g ) : null;
+        var index = 0;
+
+        if ( anchors ) {
+
+          for ( var i = 0; i < anchors.length; i++ ) {
+            var md = anchors[i].replace( /^href="\?/, "" ).replace( /"$/, "" ).replace( /#.*$/, "" ); 
+            if ( md && ! this.mdToIndex[ md ] ) {
+              this.mdToIndex[ md ] = index;
+              index++;
+            }
           }
+
+          for ( md in this.mdToIndex ) {
+            this.indexToMd[ this.mdToIndex[ md ] ] = md;
+          }
+
         }
 
-        for ( md in this.mdToIndex ) {
-          this.indexToMd[ this.mdToIndex[ md ] ] = md;
-        }
       }
 
     },
@@ -891,22 +914,19 @@ MarkdownChromeConfig.spinner = {
 
         this.pv++;
         this.current = Number( number );
-        
-        if ( this.pages[ this.current - 1 ] ) {
-          this.pages[ this.current - 1 ].show();
-          setTimeout( function() { window.scrollTo( 0, 0 ) }, 100 );
+        this.pages[ this.current - 1 ].show();
+        setTimeout( function() { window.scrollTo( 0, 0 ) }, 100 );
 
-          if ( this.pages.length > 1 ) {
-            this.makePagination();
-            document.getElementById( this.config.pagination ).style.display = "block";
-          }
-          else {
-            document.getElementById( this.config.pagination ).style.display = "none";
-          }
+        if ( this.pages.length > 1 ) {
+          this.makePagination();
+          document.getElementById( this.config.pagination ).style.display = "block";
+        }
+        else {
+          document.getElementById( this.config.pagination ).style.display = "none";
+        }
 
-          if ( this.config.onPrint ) { //onPrint
-            this.config.onPrint();
-          }
+        if ( this.config.onPrint ) { //onPrint
+          this.config.onPrint();
         }
 
       }
@@ -1028,6 +1048,16 @@ MarkdownChromeConfig.spinner = {
     var msg = {
       result: true,
       errors: new Array()
+    }
+
+    if ( ! config.index ) {
+      msg.result = false;
+      msg.errors.push( "index element id is not defined." );
+    }
+
+    if ( config.index && ! document.getElementById( config.index ) ) {
+      msg.result = false;
+      msg.errors.push( "index element does not exist." );
     }
 
     if ( ! config.container ) {
